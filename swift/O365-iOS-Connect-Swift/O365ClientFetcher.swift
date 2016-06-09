@@ -58,9 +58,12 @@ class Office365ClientFetcher {
                 let userDefaults = NSUserDefaults.standardUserDefaults()
                 
                 if let serviceEndpoints = userDefaults.dictionaryForKey("O365ServiceEndpoints") {
+                    NSLog("serviceEndpoints:", serviceEndpoints)
                     if let serviceEndpointUrl: AnyObject = serviceEndpoints["Mail"] {
+                        print(serviceEndpointUrl)
                         // Gets the MSOutlookClient with the URL for the Mail service.
                         let outlookClient = MSOutlookClient(url: serviceEndpointUrl as! String, dependencyResolver: authenticationManager.dependencyResolver)
+                        print(outlookClient)
                         completionHandler(outlookClient: outlookClient)
                     }
                 }

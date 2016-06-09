@@ -1,32 +1,28 @@
 /*
  * Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. See full license at the bottom of this file.
  */
+#import <Foundation/Foundation.h>
+#import "AppDelegate.h"
+#import "Office365Snippets.h"
 
-#ifndef O365_iOS_Connect_Swift_O365_Connect_Bridging_Header_h
-#define O365_iOS_Connect_Swift_O365_Connect_Bridging_Header_h
+// Contains information about a snippet. Information is used to populate the UI.
+@interface SnippetInfo : NSObject
 
-#import <ADALiOS/ADAuthenticationContext.h>
-#import <ADALiOS/ADAuthenticationSettings.h>
-#import <office365_discovery_sdk.h>
-#import <MSOutlookClient.h>
-#import <ADALiOS/ADAuthenticationError.h>
-#import <MSOutlookUserCollectionFetcher.h>
-#import <MSOutlookUserFetcher.h>
-#import <MSOutlookUserOperations.h>
-#import <MSOutlookCalendar.h>
-#import <MSOutlookCalendarCollectionFetcher.h>
-#import <MSOutlookCalendarCollectionOperations.h>
-#import <MSOutlookCalendarFetcher.h>
-#import <MSOutlookCalendarOperations.h>
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) SEL       action;
 
-#endif
+- (instancetype)initWithName:(NSString *)name
+                      action:(SEL)action;
 
-//-(MSOutlookUserCollectionFetcher*) getUsers;
-//-(MSOutlookUserFetcher*) getMe;
++ (instancetype)snippetInfoWithName:(NSString *)name
+                             action:(SEL)action;
+@end
+
+
 
 // *********************************************************
 //
-// O365-iOS-Connect, https://github.com/OfficeDev/O365-iOS-Connect
+// O365-iOS-Snippets, https://github.com/OfficeDev/O365-iOS-Snippets
 //
 // Copyright (c) Microsoft Corporation
 // All rights reserved.
@@ -52,3 +48,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 // *********************************************************
+
+
+

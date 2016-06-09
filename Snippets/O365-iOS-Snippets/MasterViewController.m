@@ -262,7 +262,16 @@
 //Again, for just the pure snippet library, see Office365Snippets.m.
 
 
+static inline BOOL IsEmpty(id thing) {
+    return thing == nil
+    || ([thing respondsToSelector:@selector(length)]
+        && [(NSData *)thing length] == 0)
+    || ([thing respondsToSelector:@selector(count)]
+        && [(NSArray *)thing count] == 0);
+}
+
 #pragma mark - Calendar events
+
 - (void)performFetchCalendarEvents
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
@@ -284,7 +293,12 @@
             [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
 
             for(MSOutlookEvent *event in events) {
-                [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
+                if (IsEmpty(event.Location.DisplayName) == false) {
+                    [workingText appendFormat:@"Subject: "];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
+                    [workingText appendFormat:@"Location: "];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
+                }
             }
 
             [workingText appendFormat:@"</br><hr><p>For the code, see fetchCalendarEvents in Office365Snippets.m."];

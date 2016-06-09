@@ -533,9 +533,13 @@
         MSOutlookUserFetcher *userFetcher = [client getMe];
         MSOutlookEventCollectionFetcher *eventFetcher = [userFetcher getEvents];
 
+    
+        
         NSURLSessionTask *task = [eventFetcher readWithCallback:^(NSArray *events, MSODataException *error) {
             completion(events, error);
         }];
+        
+      
 
         [task resume];
     }];

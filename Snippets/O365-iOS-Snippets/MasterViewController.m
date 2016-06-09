@@ -92,41 +92,44 @@
     NSMutableArray *calendarRows = [[NSMutableArray alloc] init];
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get events"   action:@selector(performFetchCalendarEvents)]];
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Create event" action:@selector(performCreateCalendarEvent)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
+   // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
+   // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
+   
     // ADD
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Accept event"                action:@selector(performAcceptCalendarMeetingEvent)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Decline event"               action:@selector(performDeclineCalendarMeetingEvent)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Tentatively accept event"    action:@selector(performTentativelyAcceptCalendarMeetingEvent)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get calendar view"           action:@selector(performFetchCalendarViewEvent)]];
-
-    NSMutableArray *contactRows = [[NSMutableArray alloc] init];
-    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Get contacts"   action:@selector(performFetchContacts)]];
-    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Create contact" action:@selector(performCreateContact)]];
-    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Update contact" action:@selector(performUpdateContact)]];
-    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Delete contact" action:@selector(performDeleteContact)]];
-
-    NSMutableArray *mailRows = [[NSMutableArray alloc] init];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get messages"   action:@selector(performFetchMailMessages)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create message" action:@selector(performCreateMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create & send HTML message" action:@selector(performCreateAndSendHTMLMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Update message" action:@selector(performUpdateMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Delete message" action:@selector(performDeleteMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Reply to message" action:@selector(performReplyToMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create draft reply" action:@selector(createDraftReplyMailMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Copy a mail message" action:@selector(performCopyMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Move a mail message" action:@selector(performMoveMessage)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get unread important messages" action:@selector(performFetchUnreadImportantMessages)]];
-    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get a message weblink" action:@selector(performFetchMessageWebLink)]];
+//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Accept event"                action:@selector(performAcceptCalendarMeetingEvent)]];
+//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Decline event"               action:@selector(performDeclineCalendarMeetingEvent)]];
+//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Tentatively accept event"    action:@selector(performTentativelyAcceptCalendarMeetingEvent)]];
+//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get calendar view"           action:@selector(performFetchCalendarViewEvent)]];
+//
+//    NSMutableArray *contactRows = [[NSMutableArray alloc] init];
+//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Get contacts"   action:@selector(performFetchContacts)]];
+//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Create contact" action:@selector(performCreateContact)]];
+//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Update contact" action:@selector(performUpdateContact)]];
+//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Delete contact" action:@selector(performDeleteContact)]];
+//
+//    NSMutableArray *mailRows = [[NSMutableArray alloc] init];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get messages"   action:@selector(performFetchMailMessages)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create message" action:@selector(performCreateMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create & send HTML message" action:@selector(performCreateAndSendHTMLMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Update message" action:@selector(performUpdateMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Delete message" action:@selector(performDeleteMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Reply to message" action:@selector(performReplyToMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create draft reply" action:@selector(createDraftReplyMailMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Copy a mail message" action:@selector(performCopyMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Move a mail message" action:@selector(performMoveMessage)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get unread important messages" action:@selector(performFetchUnreadImportantMessages)]];
+//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get a message weblink" action:@selector(performFetchMessageWebLink)]];
+//    
     
     
-    
 
-    NSMutableArray *filesRows = [[NSMutableArray alloc] init];
-    [filesRows addObject:[SnippetInfo snippetInfoWithName:@"Get files" action:@selector(performFetchFiles)]];
+//    NSMutableArray *filesRows = [[NSMutableArray alloc] init];
+//    [filesRows addObject:[SnippetInfo snippetInfoWithName:@"Get files" action:@selector(performFetchFiles)]];
 
-    self.sectionHeaders        = @[@"Calendar", @"Contacts", @"Mail", @"Files"];
-    self.snippetInfosBySection = @[calendarRows, contactRows, mailRows, filesRows];
+  //  self.sectionHeaders        = @[@"Calendar", @"Contacts", @"Mail", @"Files"];
+ //   self.snippetInfosBySection = @[calendarRows, contactRows, mailRows, filesRows];
+        self.sectionHeaders        = @[@"Calendar"];
+    self.snippetInfosBySection = @[calendarRows];
 }
 
 #pragma mark - Segues
@@ -298,6 +301,15 @@ static inline BOOL IsEmpty(id thing) {
                     [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
                     [workingText appendFormat:@"Location: "];
                     [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
+                    [workingText appendFormat:@"Start time: "];
+                    
+                    
+ 
+                    
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Start];
+                    [workingText appendFormat:@"End time: "];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.End];
+
                 }
             }
 

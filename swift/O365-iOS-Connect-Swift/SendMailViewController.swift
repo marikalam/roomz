@@ -129,17 +129,6 @@ class SendMailViewController: UIViewController {
         }
     }
     
-    func roomLists (completion:([RoomList]) -> Void) {
-        if roomLists.count > 0 {
-            completion(roomLists)
-        } else {
-            baseController.g
-            OutlookAPI.getRoomLists({ (roomLists) -> Void in
-                self.roomLists = roomLists
-                completion(roomLists)
-            })
-        }
-    }
 
     func sendMailMessage() {
         let message = buildMessage()

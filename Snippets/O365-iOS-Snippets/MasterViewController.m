@@ -16,6 +16,15 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *runAllBarButtonItem;
 @end
 
+
+static NSString *Sunnyvale3=@"Crimson House West - 3F - Sunnyvale";
+static NSString *StarWars5=@"Crimson House West - 5F - Star Wars";
+static NSString *Batman5=@"Crimson House West - 5F - Batman";
+static NSString *Fuji4=@"Crimson House West - 4F - Fuji";
+static NSString *Everest4=@"Crimson House West - 4F - Everest";
+
+
+
 @implementation MasterViewController
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -94,7 +103,13 @@
     
     
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Fuji"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Everest"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Star Wars"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Batman"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
 
+    
     
     
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Create event" action:@selector(performCreateCalendarEvent)]];
@@ -281,6 +296,10 @@ static inline BOOL IsEmpty(id thing) {
 
 #pragma mark - Calendar events
 
+-(void) getRooms:(NSString *) room
+{
+    
+}
 
 - (void)get3FSunnyvaleRoom
 {
@@ -300,19 +319,16 @@ static inline BOOL IsEmpty(id thing) {
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             
-            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>Room availability:</h3>"];
             
             for(MSOutlookEvent *event in events) {
-                //if (event.Location.DisplayName == @"CHW_JEFF") {
-                    
-                if ([@"CHW_JEFF" compare:event.Location.DisplayName]==NSOrderedSame) {
+                
+                if ([Sunnyvale3 compare:event.Location.DisplayName]==NSOrderedSame) {
                     [workingText appendFormat:@"Subject: "];
                     [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
                     [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
                     [workingText appendFormat:@"Start time: "];
-                    
-                    
-                    
+
                     [workingText appendFormat:@"<p>%@<br></p>", event.Start];
                     [workingText appendFormat:@"End time: "];
                     [workingText appendFormat:@"<p>%@<br></p>", event.End];
@@ -331,7 +347,6 @@ static inline BOOL IsEmpty(id thing) {
                            snippetName:@"Get Events"];
     }];
 
-    
 }
 
 - (void)performFetchCalendarEvents

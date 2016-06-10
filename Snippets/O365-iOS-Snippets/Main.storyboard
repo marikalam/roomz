@@ -214,6 +214,24 @@ For this app to work correctly, you have to make sure the prerequisites have bee
             </objects>
             <point key="canvasLocation" x="1406" y="-630"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Pju-ZX-vz7">
+            <objects>
+                <viewController storyboardIdentifier="CEViewController" id="yPk-vW-yCj" customClass="CEViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XjX-ge-78e"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Dq-7R-yzd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rbM-s5-1Fv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pd1-1I-ZMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1428" y="97"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="r7l-gg-dq7">
             <objects>

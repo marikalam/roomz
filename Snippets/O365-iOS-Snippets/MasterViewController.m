@@ -400,6 +400,11 @@ static inline BOOL IsEmpty(id thing) {
 }
 - (void)performCreateCalendarEvent
 {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CEViewController"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:NULL];
+    
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
 
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];

@@ -320,11 +320,11 @@ static inline BOOL IsEmpty(id thing) {
             for(MSOutlookEvent *event in events) {
                 if ([room compare:event.Location.DisplayName]==NSOrderedSame) {
                     [workingText appendFormat:@"Subject: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
+                    [workingText appendFormat:@"%@<br>", event.Subject];
                     [workingText appendFormat:@"Start time: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Start];
+                    [workingText appendFormat:@"%@<br>", event.Start];
                     [workingText appendFormat:@"End time: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.End];
+                    [workingText appendFormat:@"%@<br>", event.End];
                     
                 }
             }
@@ -384,21 +384,43 @@ static inline BOOL IsEmpty(id thing) {
             NSMutableString *workingText = [[NSMutableString alloc] init];
 
             [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+            
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"hh:mm a"];
+            
+            NSString *nowTimeString = [formatter stringFromDate:[NSDate date]];
+
 
             for(MSOutlookEvent *event in events) {
+   
                 if (IsEmpty(event.Location.DisplayName) == false) {
-                    [workingText appendFormat:@"Subject: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
+                    int startTime   = [self minutesSinceMidnight:event.Start];
+                    int endTime  = [self minutesSinceMidnight:event.End];
+                    int nowTime     = [self minutesSinceMidnight:[formatter dateFromString:nowTimeString]];;
+
+                    
+//                    [workingText appendFormat:@"Subject: "];
+//                    [workingText appendFormat:@"%@<br>", event.Subject];
                     [workingText appendFormat:@"Location: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
+                    [workingText appendFormat:@"%@<br>", event.Location.DisplayName];
                     [workingText appendFormat:@"Start time: "];
-                    
-                    
- 
-                    
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Start];
+                    [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
                     [workingText appendFormat:@"End time: "];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.End];
+                    [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                    
+                    
+                    
+                    if (startTime <= nowTime && nowTime <= endTime)
+                    {
+                        [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+
+                    }
+                    else {
+                        [workingText appendFormat:@"<font color=green>AVAILABLE!</font><br>"];
+                    }
+                    
+                    [workingText appendFormat:@"---------<br>"];
 
                 }
             }
@@ -414,6 +436,14 @@ static inline BOOL IsEmpty(id thing) {
                            snippetName:@"Get Events"];
     }];
 }
+
+
+-(int) minutesSinceMidnight:(NSDate *)date
+{
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:date];
+    return 60 * (int)[components hour] + (int)[components minute];
+}
+
 - (void)performCreateCalendarEvent
 {
 //    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

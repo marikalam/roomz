@@ -51,7 +51,7 @@ static NSString *Everest4Title=@"4F Everest";
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             
-            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+            [workingText appendFormat:@"<br><br><br><h1><font color=magenta>Room Status?</h1></font><br>"];
             
             
             NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -68,102 +68,82 @@ static NSString *Everest4Title=@"4F Everest";
                     NSString *eventLocation = event.Location.DisplayName;
                     
                     if ([eventLocation isEqualToString:Sunnyvale3] && !map[Sunnyvale3] == YES) {
-                        
-                        //[workingText appendFormat:@"Location: "];
-                        [workingText appendFormat:@"%@ ", Sunnyvale3Title];
-                        //                        [workingText appendFormat:@"Start time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
-                        //                        [workingText appendFormat:@"End time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        [workingText appendFormat:@"<h3>%@:   ",[Sunnyvale3 stringByReplacingOccurrencesOfString:@"Crimson House West - " withString:@""]];
                         
                         if (check == YES) {
                             map[Sunnyvale3] = @(YES);
-                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font></h3><br>"];
                         }
                         else if (check == NO) {
                             map[Sunnyvale3] = @(NO);
                             [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                            [workingText appendFormat:@"Will be available at "];
+                            [workingText appendFormat:@"%@</h3>", [formatter stringFromDate: event.End]];
                         }
-                        [workingText appendFormat:@"--------<br>"];
-                        
                     }
                     
                     else if ([eventLocation isEqualToString:Fuji4] && !map[Fuji4] == YES) {
-                        [workingText appendFormat:@"%@ ",  Fuji4Title];
+                        [workingText appendFormat:@"<h3>%@:   ",[Fuji4 stringByReplacingOccurrencesOfString:@"Crimson House West - " withString:@""]];
                  
                         if (check == YES) {
                             map[Fuji4] = @(YES);
-                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font></h3><br>"];
                         }
                         else if (check == NO) {
                             map[Fuji4] = @(NO);
                             [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                            [workingText appendFormat:@"Will be available at "];
+                            [workingText appendFormat:@"%@</h3>", [formatter stringFromDate: event.End]];
                         }
-                        [workingText appendFormat:@"--------<br>"];
                         
                     }
                     
                     
                     else if ([eventLocation isEqualToString:Everest4] && !map[Everest4] == YES) {
-                        //[workingText appendFormat:@"Location: "];
-                        [workingText appendFormat:@"%@ ", Everest4Title];
-                        //                        [workingText appendFormat:@"Start time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
-                        //                        [workingText appendFormat:@"End time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        [workingText appendFormat:@"<h3>%@:   ",[Everest4 stringByReplacingOccurrencesOfString:@"Crimson House West - " withString:@""]];
                         
                         if (check == YES) {
                             map[Everest4] = @(YES);
-                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font></h3><br>"];
                         }
                         else if (check == NO) {
                             map[Everest4] = @(NO);
                             [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                            [workingText appendFormat:@"Will be available at "];
+                            [workingText appendFormat:@"%@</h3>", [formatter stringFromDate: event.End]];
                         }
-                        [workingText appendFormat:@"--------<br>"];
-                        
                     }
                     
                     
                     else if ([eventLocation isEqualToString:Batman5] && !map[Batman5] == YES) {
-                        // [workingText appendFormat:@"Location: "];
-                        [workingText appendFormat:@"%@ ", Batman5Title];
-                        //                        [workingText appendFormat:@"Start time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
-                        //                        [workingText appendFormat:@"End time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        [workingText appendFormat:@"<h3>%@:   ",[Batman5 stringByReplacingOccurrencesOfString:@"Crimson House West - " withString:@""]];
                         
                         if (check == YES) {
                             map[Batman5] = @(YES);
-                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font></h3><br>"];
                         }
                         else if (check == NO) {
                             map[Batman5] = @(NO);
                             [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                            [workingText appendFormat:@"Will be available at "];
+                            [workingText appendFormat:@"%@</h3>", [formatter stringFromDate: event.End]];
                         }
-                        [workingText appendFormat:@"--------<br>"];
                         
                     }
                     
                     else if ([eventLocation isEqualToString:StarWars5] && !map[StarWars5] == YES) {
-                        //[workingText appendFormat:@"Location: "];
-                        [workingText appendFormat:@"%@ ", StarWars5Title];
-                        //                        [workingText appendFormat:@"Start time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
-                        //                        [workingText appendFormat:@"End time: "];
-                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        [workingText appendFormat:@"<h3>%@:   ",[StarWars5 stringByReplacingOccurrencesOfString:@"Crimson House West - " withString:@""]];
                         
                         if (check == YES) {
                             map[StarWars5] = @(YES);
-                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font></h3><br>"];
                         }
                         else if (check == NO) {
                             map[StarWars5] = @(NO);
                             [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
-                        }
-                        [workingText appendFormat:@"--------<br>"];
-                        
-                    }
+                            [workingText appendFormat:@"Will be available at "];
+                            [workingText appendFormat:@"%@</h3>", [formatter stringFromDate: event.End]];
+                        }                    }
                     
                     
                 }
@@ -272,19 +252,17 @@ static NSString *Everest4Title=@"4F Everest";
 - (void)setupTableSections
 {
     NSMutableArray *calendarRows = [[NSMutableArray alloc] init];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get events"   action:@selector(performFetchCalendarEvents)]];
-    
-    
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Fuji"   action:@selector(get4FFujiRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Everest"   action:@selector(get4FEverestRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Star Wars"   action:@selector(get5FStarWarsRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Batman"   action:@selector(get5FBatmanRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check ALL Rooms"   action:@selector(performFetchCalendarEvents)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check 4F Fuji"   action:@selector(get4FFujiRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check 4F Everest"   action:@selector(get4FEverestRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check 5F Star Wars"   action:@selector(get5FStarWarsRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Check 5F Batman"   action:@selector(get5FBatmanRoom)]];
     
     
     
     
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Create event" action:@selector(performCreateCalendarEvent)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Book Room Now!" action:@selector(performCreateCalendarEvent)]];
     // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
     // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
     
@@ -485,18 +463,30 @@ static inline BOOL IsEmpty(id thing) {
         }
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"hh:mm a"];
+
             
-            [workingText appendFormat:@"<h2><font color=green></h2></font><h3>Room availability:</h3>"];
-            [workingText appendFormat:room];
-            
+            [workingText appendFormat:@"<br><br><h2><font color=magenta>Booked rooms at </font>"];
+            [workingText appendFormat:@"<font color=magenta>%@</font>", [room stringByReplacingOccurrencesOfString:@"Crimson House West - "
+                                                                                                                 withString:@""]];
+
             for(MSOutlookEvent *event in events) {
                 if ([room compare:event.Location.DisplayName]==NSOrderedSame) {
+                    BOOL check = [self isAvaialble:event.Start :event.End];
+        
+                    if (check == NO){
+                        [workingText appendFormat:@"<br><font color=red>BUSY NOW!<br></font></h2><br>"];
+                    } else {
+                        [workingText appendFormat:@"</h2><br>"];
+
+                    }
                     [workingText appendFormat:@"Subject: "];
                     [workingText appendFormat:@"%@<br>", event.Subject];
                     [workingText appendFormat:@"Start time: "];
-                    [workingText appendFormat:@"%@<br>", event.Start];
+                    [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
                     [workingText appendFormat:@"End time: "];
-                    [workingText appendFormat:@"%@<br>", event.End];
+                    [workingText appendFormat:@"%@<br><br>",[formatter stringFromDate: event.End]];
                     
                 }
             }
@@ -567,8 +557,8 @@ static inline BOOL IsEmpty(id thing) {
     
     // Populate the event details
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
-    NSString *subject = [NSString stringWithFormat:@"New event created on %@", dateString];
-    NSString *body = @"Congratulations, you created  this event from the Snippets app!";
+    NSString *subject = [NSString stringWithFormat:@""];
+    NSString *body = @"Congratulations, you created  this event!";
     NSDate *start = [NSDate date];
     NSDate *end = [[NSDate date] dateByAddingTimeInterval: 3600];
     
@@ -578,6 +568,7 @@ static inline BOOL IsEmpty(id thing) {
                                                                          start:start
                                                                            end: end
                                      ];
+    eventToCreate.Location.displayName = Batman5;
     
     [snippetLibrary createCalendarEvent:eventToCreate
                              completion:^(MSOutlookEvent *addedEvent,  NSError *error) {
@@ -589,9 +580,8 @@ static inline BOOL IsEmpty(id thing) {
                                  }
                                  else {
                                      NSMutableString *workingText = [[NSMutableString alloc] init];
-                                     [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event in your calendar.</h3>"];
+                                     [workingText appendFormat:@"<br><br><br><h2><h2><font color=magenta>We booked you a room for right now!</h2></font>"];
                                      [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
-                                     [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent in Office365Snippets.m."];
                                      
                                      resultText = workingText;
                                  }
@@ -665,10 +655,9 @@ static inline BOOL IsEmpty(id thing) {
                                                               }
                                                               else {
                                                                   NSMutableString *workingText = [[NSMutableString alloc] init];
-                                                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event and updated the subject in your calendar.</h3>"];
+                                                                  [workingText appendFormat:@"<br><br><br><h2><font color=magenta>Room is booked!</h2></font>"];
                                                                   [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
-                                                                  [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent and updateCalendarEvent in Office365Snippets.m."];
-                                                                  
+                                                                
                                                                   resultText = workingText;
                                                               }
                                                               
@@ -984,7 +973,7 @@ static inline BOOL IsEmpty(id thing) {
                                    else{
                                        NSMutableString *workingText = [[NSMutableString alloc] init];
                                        
-                                       [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+                                       [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>Room status as of RIGHT NOW!:</h3>"];
                                        
                                        for(MSOutlookEvent *event in events) {
                                            [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
@@ -1022,7 +1011,7 @@ static inline BOOL IsEmpty(id thing) {
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             
-            [workingText appendFormat:@"<h2><font color=#6AFB92>SUCCESS!</h2></font><h3>We retrieved the following contacts from Office 365:</h3>"];
+            [workingText appendFormat:@"<h2><font color=#6AFB92>Availability of each room: </h2></font>"];
             
             for(MSOutlookContact *contact in contacts) {
                 [workingText appendFormat:@"<p>%@<br></p>", contact.DisplayName];

@@ -103,11 +103,10 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
     
     
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Fuji"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Everest"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Star Wars"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Batman"   action:@selector(get3FSunnyvaleRoom)]];
-    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Fuji"   action:@selector(get4FFujiRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Everest"   action:@selector(get4FEverestRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Star Wars"   action:@selector(get5FStarWarsRoom)]];
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Batman"   action:@selector(get5FBatmanRoom)]];
 
     
     
@@ -298,11 +297,6 @@ static inline BOOL IsEmpty(id thing) {
 
 -(void) getRooms:(NSString *) room
 {
-    
-}
-
-- (void)get3FSunnyvaleRoom
-{
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
     
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
@@ -319,25 +313,21 @@ static inline BOOL IsEmpty(id thing) {
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             
-            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>Room availability:</h3>"];
+            [workingText appendFormat:@"<h2><font color=green></h2></font><h3>Room availability:</h3>"];
+            [workingText appendFormat:room];
             
             for(MSOutlookEvent *event in events) {
-                
-                if ([Sunnyvale3 compare:event.Location.DisplayName]==NSOrderedSame) {
+                if ([room compare:event.Location.DisplayName]==NSOrderedSame) {
                     [workingText appendFormat:@"Subject: "];
                     [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
-                    [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
                     [workingText appendFormat:@"Start time: "];
-
                     [workingText appendFormat:@"<p>%@<br></p>", event.Start];
                     [workingText appendFormat:@"End time: "];
                     [workingText appendFormat:@"<p>%@<br></p>", event.End];
                     
                 }
             }
-            
-            [workingText appendFormat:@"</br><hr><p>For the code, see fetchCalendarEvents in Office365Snippets.m."];
-            
+                        
             resultText = [workingText copy];
         }
         
@@ -347,6 +337,31 @@ static inline BOOL IsEmpty(id thing) {
                            snippetName:@"Get Events"];
     }];
 
+}
+
+- (void)get3FSunnyvaleRoom
+{
+    [self getRooms:Sunnyvale3];
+}
+
+- (void)get4FFujiRoom
+{
+    [self getRooms:Fuji4];
+}
+
+- (void)get4FEverestRoom
+{
+    [self getRooms:Everest4];
+}
+
+- (void)get5FBatmanRoom
+{
+    [self getRooms:Batman5];
+}
+
+- (void)get5FStarWarsRoom
+{
+    [self getRooms:StarWars5];
 }
 
 - (void)performFetchCalendarEvents

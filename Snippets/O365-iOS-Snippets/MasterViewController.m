@@ -24,12 +24,184 @@ static NSString *Batman5=@"Crimson House West - 5F - Batman";
 static NSString *Fuji4=@"Crimson House West - 4F - Fuji";
 static NSString *Everest4=@"Crimson House West - 4F - Everest";
 
+static NSString *Sunnyvale3Title=@"3F Sunnyvale";
+static NSString *StarWars5Title=@"5F Star Wars";
+static NSString *Batman5Title=@"5F Batman";
+static NSString *Fuji4Title=@"4F Fuji";
+static NSString *Everest4Title=@"4F Everest";
 
 
 @implementation MasterViewController
+
+- (void)performFetchCalendarEvents
+{
+    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
+    
+    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
+    
+    [self.spinner startAnimating];
+    
+    [snippetLibrary fetchCalendarEvents:^(NSArray *events, NSError *error) {
+        NSString *resultText;
+        BOOL success = (!error);
+        
+        if (!success) {
+            resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to get the events from your O365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
+        }
+        else {
+            NSMutableString *workingText = [[NSMutableString alloc] init];
+            
+            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+            
+            
+            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+            [formatter setDateFormat:@"hh:mm a"];
+            
+            
+            NSMutableDictionary *map = [NSMutableDictionary dictionary];
+            
+            for(MSOutlookEvent *event in events) {
+                
+                if (IsEmpty(event.Location.DisplayName) == false) {
+                    
+                    BOOL check = [self isAvaialble:event.Start :event.End];
+                    NSString *eventLocation = event.Location.DisplayName;
+                    
+                    if ([eventLocation isEqualToString:Sunnyvale3] && !map[Sunnyvale3] == YES) {
+                        
+                        //[workingText appendFormat:@"Location: "];
+                        [workingText appendFormat:@"%@ ", Sunnyvale3Title];
+                        //                        [workingText appendFormat:@"Start time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
+                        //                        [workingText appendFormat:@"End time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        
+                        if (check == YES) {
+                            map[Sunnyvale3] = @(YES);
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                        }
+                        else if (check == NO) {
+                            map[Sunnyvale3] = @(NO);
+                            [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                        }
+                        [workingText appendFormat:@"--------<br>"];
+                        
+                    }
+                    
+                    else if ([eventLocation isEqualToString:Fuji4] && !map[Fuji4] == YES) {
+                        [workingText appendFormat:@"%@ ",  Fuji4Title];
+                 
+                        if (check == YES) {
+                            map[Fuji4] = @(YES);
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                        }
+                        else if (check == NO) {
+                            map[Fuji4] = @(NO);
+                            [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                        }
+                        [workingText appendFormat:@"--------<br>"];
+                        
+                    }
+                    
+                    
+                    else if ([eventLocation isEqualToString:Everest4] && !map[Everest4] == YES) {
+                        //[workingText appendFormat:@"Location: "];
+                        [workingText appendFormat:@"%@ ", Everest4Title];
+                        //                        [workingText appendFormat:@"Start time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
+                        //                        [workingText appendFormat:@"End time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        
+                        if (check == YES) {
+                            map[Everest4] = @(YES);
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                        }
+                        else if (check == NO) {
+                            map[Everest4] = @(NO);
+                            [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                        }
+                        [workingText appendFormat:@"--------<br>"];
+                        
+                    }
+                    
+                    
+                    else if ([eventLocation isEqualToString:Batman5] && !map[Batman5] == YES) {
+                        // [workingText appendFormat:@"Location: "];
+                        [workingText appendFormat:@"%@ ", Batman5Title];
+                        //                        [workingText appendFormat:@"Start time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
+                        //                        [workingText appendFormat:@"End time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        
+                        if (check == YES) {
+                            map[Batman5] = @(YES);
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                        }
+                        else if (check == NO) {
+                            map[Batman5] = @(NO);
+                            [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                        }
+                        [workingText appendFormat:@"--------<br>"];
+                        
+                    }
+                    
+                    else if ([eventLocation isEqualToString:StarWars5] && !map[StarWars5] == YES) {
+                        //[workingText appendFormat:@"Location: "];
+                        [workingText appendFormat:@"%@ ", StarWars5Title];
+                        //                        [workingText appendFormat:@"Start time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
+                        //                        [workingText appendFormat:@"End time: "];
+                        //                        [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
+                        
+                        if (check == YES) {
+                            map[StarWars5] = @(YES);
+                            [workingText appendFormat:@"<font color=green>AVAILABLE!<br></font>"];
+                        }
+                        else if (check == NO) {
+                            map[StarWars5] = @(NO);
+                            [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
+                        }
+                        [workingText appendFormat:@"--------<br>"];
+                        
+                    }
+                    
+                    
+                }
+            }
+            
+            resultText = [workingText copy];
+        }
+        
+        [self updateUIWithResultString:resultText
+                               success:success
+                        snippetService:@"Calendar"
+                           snippetName:@"Get Events"];
+    }];
+}
+
+-(BOOL) isAvaialble: (NSDate *) beginDate :(NSDate *) endDate {
+    
+    NSDate * now = [NSDate date];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"HH:mm:ss"];
+    NSString *newDateString = [outputFormatter stringFromDate:now];
+    NSLog(@"newDateString %@", newDateString);
+    
+    
+    if ([now compare:beginDate] == NSOrderedAscending)
+        return YES;
+    
+    if ([now compare:endDate] == NSOrderedDescending)
+        return YES;
+    
+    return NO;
+}
+
+
+
 - (void)awakeFromNib {
     [super awakeFromNib];
-
+    
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
@@ -39,18 +211,18 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     [self setupTableSections];
-
+    
     //Retrieve Office 365 service endpoint and resource ID paths for clients (Office365ClientFetcher)
     Office365Snippets *O365 = [[Office365Snippets alloc] init];
     [O365 fetchDiscoveryServiceEndpoints];
-
+    
     //Creating two notifications for the O365 connect and disconnect state. If the app is in a disconnected state
     //we will disable the runAllBarButtonItem
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(office365Disconnect) name:@"Office365DidDisconnectNotification" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(office365Connect) name:@"Office365DidConnectNotification" object:nil];
-
+    
 }
 
 
@@ -59,7 +231,7 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
     //Disables "Run All" bar buttom item. If the app is in a disconnected state
     //we will disable the runAllBarButtonItem
     self.runAllBarButtonItem.enabled = NO;
-
+    
     // Automatically start the connect process after you disconnect.
     Office365Snippets *O365 = [[Office365Snippets alloc] init];
     [O365 fetchDiscoveryServiceEndpoints];
@@ -69,30 +241,30 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
 {
     //Enables "Run All" bar buttom item
     self.runAllBarButtonItem.enabled = YES;
-
+    
 }
 
 
 -(void) dealloc
 {
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
 }
 
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-
+    
+    
     //Create a spinner to use in the app for long running operations
     if (!self.spinner)
     {
         self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         self.spinner.color = [UIColor blackColor];
         self.spinner.center = self.view.center;
-
+        
         [self.view addSubview:self.spinner];
     }
 }
@@ -108,48 +280,48 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 4F Everest"   action:@selector(get4FEverestRoom)]];
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Star Wars"   action:@selector(get5FStarWarsRoom)]];
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 5F Batman"   action:@selector(get5FBatmanRoom)]];
-
+    
     
     
     
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Create event" action:@selector(performCreateCalendarEvent)]];
-   // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
-   // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
-   
+    // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
+    // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
+    
     // ADD
-//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Accept event"                action:@selector(performAcceptCalendarMeetingEvent)]];
-//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Decline event"               action:@selector(performDeclineCalendarMeetingEvent)]];
-//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Tentatively accept event"    action:@selector(performTentativelyAcceptCalendarMeetingEvent)]];
-//    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get calendar view"           action:@selector(performFetchCalendarViewEvent)]];
-//
-//    NSMutableArray *contactRows = [[NSMutableArray alloc] init];
-//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Get contacts"   action:@selector(performFetchContacts)]];
-//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Create contact" action:@selector(performCreateContact)]];
-//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Update contact" action:@selector(performUpdateContact)]];
-//    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Delete contact" action:@selector(performDeleteContact)]];
-//
-//    NSMutableArray *mailRows = [[NSMutableArray alloc] init];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get messages"   action:@selector(performFetchMailMessages)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create message" action:@selector(performCreateMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create & send HTML message" action:@selector(performCreateAndSendHTMLMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Update message" action:@selector(performUpdateMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Delete message" action:@selector(performDeleteMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Reply to message" action:@selector(performReplyToMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create draft reply" action:@selector(createDraftReplyMailMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Copy a mail message" action:@selector(performCopyMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Move a mail message" action:@selector(performMoveMessage)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get unread important messages" action:@selector(performFetchUnreadImportantMessages)]];
-//    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get a message weblink" action:@selector(performFetchMessageWebLink)]];
-//    
+    //    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Accept event"                action:@selector(performAcceptCalendarMeetingEvent)]];
+    //    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Decline event"               action:@selector(performDeclineCalendarMeetingEvent)]];
+    //    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Tentatively accept event"    action:@selector(performTentativelyAcceptCalendarMeetingEvent)]];
+    //    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get calendar view"           action:@selector(performFetchCalendarViewEvent)]];
+    //
+    //    NSMutableArray *contactRows = [[NSMutableArray alloc] init];
+    //    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Get contacts"   action:@selector(performFetchContacts)]];
+    //    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Create contact" action:@selector(performCreateContact)]];
+    //    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Update contact" action:@selector(performUpdateContact)]];
+    //    [contactRows addObject:[SnippetInfo snippetInfoWithName:@"Delete contact" action:@selector(performDeleteContact)]];
+    //
+    //    NSMutableArray *mailRows = [[NSMutableArray alloc] init];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get messages"   action:@selector(performFetchMailMessages)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create message" action:@selector(performCreateMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create & send HTML message" action:@selector(performCreateAndSendHTMLMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Update message" action:@selector(performUpdateMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Delete message" action:@selector(performDeleteMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Reply to message" action:@selector(performReplyToMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Create draft reply" action:@selector(createDraftReplyMailMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Copy a mail message" action:@selector(performCopyMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Move a mail message" action:@selector(performMoveMessage)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get unread important messages" action:@selector(performFetchUnreadImportantMessages)]];
+    //    [mailRows addObject:[SnippetInfo snippetInfoWithName:@"Get a message weblink" action:@selector(performFetchMessageWebLink)]];
+    //
     
     
-
-//    NSMutableArray *filesRows = [[NSMutableArray alloc] init];
-//    [filesRows addObject:[SnippetInfo snippetInfoWithName:@"Get files" action:@selector(performFetchFiles)]];
-
-  //  self.sectionHeaders        = @[@"Calendar", @"Contacts", @"Mail", @"Files"];
- //   self.snippetInfosBySection = @[calendarRows, contactRows, mailRows, filesRows];
-        self.sectionHeaders        = @[@"Calendar"];
+    
+    //    NSMutableArray *filesRows = [[NSMutableArray alloc] init];
+    //    [filesRows addObject:[SnippetInfo snippetInfoWithName:@"Get files" action:@selector(performFetchFiles)]];
+    
+    //  self.sectionHeaders        = @[@"Calendar", @"Contacts", @"Mail", @"Files"];
+    //   self.snippetInfosBySection = @[calendarRows, contactRows, mailRows, filesRows];
+    self.sectionHeaders        = @[@"Calendar"];
     self.snippetInfosBySection = @[calendarRows];
 }
 
@@ -162,21 +334,21 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
         if ([sender isKindOfClass:[UITableViewCell class]]) {
             NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
             SnippetInfo *snippetInfo = self.snippetInfosBySection[indexPath.section][indexPath.row];
-
+            
             [self.spinner startAnimating];
             [self.view bringSubviewToFront:self.spinner];
-
+            
             IMP imp = [self methodForSelector:snippetInfo.action];
             void (*func)(id, SEL) = (void *)imp;
             func(self, snippetInfo.action);
         }
-
+        
         // Get handle to the DetailViewController
         self.detailViewController = (DetailViewController *)[[segue destinationViewController] topViewController];
-
+        
         self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
         self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
-
+        
         self.tableView.userInteractionEnabled = NO;
     }
 }
@@ -201,11 +373,11 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
+    
     SnippetInfo *snippetInfo = self.snippetInfosBySection[indexPath.section][indexPath.row];
-
+    
     cell.textLabel.text = snippetInfo.name;
-
+    
     return cell;
 }
 
@@ -218,23 +390,23 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSString *displayString = resultString;
-
+        
         if (self.runAllSnippetsRemainingCount > 0) {
             NSString *color   = success ? @"green" : @"red";
             NSString *message = success ? @"SUCCEEDED" : @"FAILED";
-
+            
             NSString *tempString = [NSString stringWithFormat:@"<h4 style=\"color:%@\">%@ : %@ -- %@!</h4><br/>",
                                     color, snippetService, snippetName, message];
-
+            
             [self.runAllResultsString appendString:tempString];
             self.runAllSnippetsRemainingCount--;
-
+            
             displayString = [self.runAllResultsString copy];
         }
-
+        
         [self.detailViewController setDetailItem:displayString];
         [self.detailViewController updateUI];
-
+        
         if (self.runAllSnippetsRemainingCount == 0) {
             [self.spinner stopAnimating];
             self.tableView.userInteractionEnabled = YES;
@@ -248,9 +420,9 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
     // Clear the results of detail view.
     self.runAllResultsString          = [[NSMutableString alloc] init];
     self.runAllSnippetsRemainingCount = 0;
-
+    
     [self performSegueWithIdentifier:@"showDetail" sender:sender];
-
+    
     //Show UI Spinner and disable user interaction on the table view
     _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [_spinner setColor:[UIColor blackColor]];
@@ -260,9 +432,9 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
     _spinner.hidesWhenStopped = YES;
     [_spinner startAnimating];
     self.tableView.userInteractionEnabled = NO;
-
+    
     // Run the list of snippets.
-
+    
     for (NSArray *snippetGroup in self.snippetInfosBySection) {
         for (SnippetInfo *snippetInfo in snippetGroup) {
             self.runAllSnippetsRemainingCount++;
@@ -273,7 +445,7 @@ static NSString *Everest4=@"Crimson House West - 4F - Everest";
             func(self, snippetInfo.action);
         }
     }
-
+    
     self.tableView.userInteractionEnabled=YES;
 }
 
@@ -328,7 +500,7 @@ static inline BOOL IsEmpty(id thing) {
                     
                 }
             }
-                        
+            
             resultText = [workingText copy];
         }
         
@@ -337,7 +509,7 @@ static inline BOOL IsEmpty(id thing) {
                         snippetService:@"Calendar"
                            snippetName:@"Get Events"];
     }];
-
+    
 }
 
 - (void)get3FSunnyvaleRoom
@@ -365,77 +537,6 @@ static inline BOOL IsEmpty(id thing) {
     [self getRooms:StarWars5];
 }
 
-- (void)performFetchCalendarEvents
-{
-    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
-    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
-    [self.spinner startAnimating];
-
-    [snippetLibrary fetchCalendarEvents:^(NSArray *events, NSError *error) {
-        NSString *resultText;
-        BOOL success = (!error);
-
-        if (!success) {
-            resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to get the events from your O365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
-        }
-        else {
-            NSMutableString *workingText = [[NSMutableString alloc] init];
-
-            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
-            
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-            [formatter setDateFormat:@"hh:mm a"];
-            
-            NSString *nowTimeString = [formatter stringFromDate:[NSDate date]];
-
-
-            for(MSOutlookEvent *event in events) {
-   
-                if (IsEmpty(event.Location.DisplayName) == false) {
-                    int startTime   = [self minutesSinceMidnight:event.Start];
-                    int endTime  = [self minutesSinceMidnight:event.End];
-                    int nowTime     = [self minutesSinceMidnight:[formatter dateFromString:nowTimeString]];;
-
-                    
-//                    [workingText appendFormat:@"Subject: "];
-//                    [workingText appendFormat:@"%@<br>", event.Subject];
-                    [workingText appendFormat:@"Location: "];
-                    [workingText appendFormat:@"%@<br>", event.Location.DisplayName];
-                    [workingText appendFormat:@"Start time: "];
-                    [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.Start]];
-                    [workingText appendFormat:@"End time: "];
-                    [workingText appendFormat:@"%@<br>", [formatter stringFromDate: event.End]];
-                    
-                    
-                    
-                    if (startTime <= nowTime && nowTime <= endTime)
-                    {
-                        [workingText appendFormat:@"<font color=red>BUSY!</font><br>"];
-
-                    }
-                    else {
-                        [workingText appendFormat:@"<font color=green>AVAILABLE!</font><br>"];
-                    }
-                    
-                    [workingText appendFormat:@"---------<br>"];
-
-                }
-            }
-
-            [workingText appendFormat:@"</br><hr><p>For the code, see fetchCalendarEvents in Office365Snippets.m."];
-
-            resultText = [workingText copy];
-        }
-
-        [self updateUIWithResultString:resultText
-                               success:success
-                        snippetService:@"Calendar"
-                           snippetName:@"Get Events"];
-    }];
-}
 
 
 -(int) minutesSinceMidnight:(NSDate *)date
@@ -446,213 +547,213 @@ static inline BOOL IsEmpty(id thing) {
 
 - (void)performCreateCalendarEvent
 {
-//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    CEViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CEViewController"];
-//    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//    [self presentViewController:vc animated:YES completion:NULL];
-//    
+    //    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //    CEViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CEViewController"];
+    //    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    //    [self presentViewController:vc animated:YES completion:NULL];
+    //
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Populate the event details
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *subject = [NSString stringWithFormat:@"New event created on %@", dateString];
     NSString *body = @"Congratulations, you created  this event from the Snippets app!";
     NSDate *start = [NSDate date];
     NSDate *end = [[NSDate date] dateByAddingTimeInterval: 3600];
-
-    MSOutlookEvent *eventToCreate = [snippetLibrary outlookEventWithProperties:@[toEmailAddress]
-                                                                           subject:subject
-                                                                              body:body
-                                                                             start:start
-                                                                               end: end
-                                       ];
-
-    [snippetLibrary createCalendarEvent:eventToCreate
-                         completion:^(MSOutlookEvent *addedEvent,  NSError *error) {
-                             NSString *resultText;
-                             BOOL success = (error== nil);
-
-                             if (!success) {
-                                 resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create an event in your calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                             }
-                             else {
-                                 NSMutableString *workingText = [[NSMutableString alloc] init];
-                                 [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event in your calendar.</h3>"];
-                                 [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
-                                 [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent in Office365Snippets.m."];
-
-                                 resultText = workingText;
-                             }
-
-                             [self updateUIWithResultString:resultText
-                                                    success:success
-                                             snippetService:@"Calendar"
-                                                snippetName:@"Create Event"];
-                         }];
-
-}
-- (void)performUpdateCalendarEvent
-{
-    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
-    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
-    [self.spinner startAnimating];
-
-    //Create a date formatter to get the current date and time in the desired format
-    NSDateFormatter *formatter;
-    NSString        *dateString;
-    formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
-    dateString = [formatter stringFromDate:[NSDate date]];
-
-    // Populate the event details
-    NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
-    NSString *subject = [NSString stringWithFormat:@"New event created on %@", dateString];
-    NSString *body = @"Congratulations, you created  this event from the Snippets app!";
-    NSDate *start = [NSDate date];
-    NSDate *end = [[NSDate date] dateByAddingTimeInterval: 3600];
-
+    
     MSOutlookEvent *eventToCreate = [snippetLibrary outlookEventWithProperties:@[toEmailAddress]
                                                                        subject:subject
                                                                           body:body
                                                                          start:start
                                                                            end: end
                                      ];
-
-
+    
     [snippetLibrary createCalendarEvent:eventToCreate
-                                completion:^(MSOutlookEvent *addedEvent, NSError *error) {
-                                    if (!addedEvent) {
-                                        NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and update an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
-                                        [self updateUIWithResultString:errorMessage
-                                                               success:NO
-                                                        snippetService:@"Calendar"
-                                                           snippetName:@"Update Event"];
-                                        return;
-                                    }
-
-                                    //Create a date formatter to get the current date and time in the desired format
-                                    NSDateFormatter *formatter;
-                                    NSString        *dateString;
-                                    formatter = [[NSDateFormatter alloc] init];
-                                    [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
-                                    dateString = [formatter stringFromDate:[NSDate date]];
-
-                                    addedEvent.Subject = [addedEvent.Subject stringByAppendingFormat:@" updated at %@", dateString];
-                                    [addedEvent setRecurrence:MSOutlook_EventType_SingleInstance];
-
-                                    [snippetLibrary updateCalendarEvent:addedEvent
-                                                           completion:^(MSOutlookEvent *updatedEvent, NSError *error) {
-                                                               BOOL success = (updatedEvent != nil);
-                                                               NSString *resultText;
-
-                                                               if (!success) {
-                                                                   resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to update an event in your calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                                                               }
-                                                               else {
-                                                                   NSMutableString *workingText = [[NSMutableString alloc] init];
-                                                                   [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event and updated the subject in your calendar.</h3>"];
-                                                                   [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
-                                                                   [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent and updateCalendarEvent in Office365Snippets.m."];
-
-                                                                   resultText = workingText;
-                                                               }
-
-                                                               [self updateUIWithResultString:resultText
-                                                                                      success:success
-                                                                               snippetService:@"Calendar"
-                                                                                  snippetName:@"Update Event"];
-                                                           }];
-                                }];
+                             completion:^(MSOutlookEvent *addedEvent,  NSError *error) {
+                                 NSString *resultText;
+                                 BOOL success = (error== nil);
+                                 
+                                 if (!success) {
+                                     resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create an event in your calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                 }
+                                 else {
+                                     NSMutableString *workingText = [[NSMutableString alloc] init];
+                                     [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event in your calendar.</h3>"];
+                                     [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
+                                     [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent in Office365Snippets.m."];
+                                     
+                                     resultText = workingText;
+                                 }
+                                 
+                                 [self updateUIWithResultString:resultText
+                                                        success:success
+                                                 snippetService:@"Calendar"
+                                                    snippetName:@"Create Event"];
+                             }];
+    
+}
+- (void)performUpdateCalendarEvent
+{
+    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
+    
+    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
+    
+    [self.spinner startAnimating];
+    
+    //Create a date formatter to get the current date and time in the desired format
+    NSDateFormatter *formatter;
+    NSString        *dateString;
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
+    dateString = [formatter stringFromDate:[NSDate date]];
+    
+    // Populate the event details
+    NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
+    NSString *subject = [NSString stringWithFormat:@"New event created on %@", dateString];
+    NSString *body = @"Congratulations, you created  this event from the Snippets app!";
+    NSDate *start = [NSDate date];
+    NSDate *end = [[NSDate date] dateByAddingTimeInterval: 3600];
+    
+    MSOutlookEvent *eventToCreate = [snippetLibrary outlookEventWithProperties:@[toEmailAddress]
+                                                                       subject:subject
+                                                                          body:body
+                                                                         start:start
+                                                                           end: end
+                                     ];
+    
+    
+    [snippetLibrary createCalendarEvent:eventToCreate
+                             completion:^(MSOutlookEvent *addedEvent, NSError *error) {
+                                 if (!addedEvent) {
+                                     NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and update an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                     
+                                     [self updateUIWithResultString:errorMessage
+                                                            success:NO
+                                                     snippetService:@"Calendar"
+                                                        snippetName:@"Update Event"];
+                                     return;
+                                 }
+                                 
+                                 //Create a date formatter to get the current date and time in the desired format
+                                 NSDateFormatter *formatter;
+                                 NSString        *dateString;
+                                 formatter = [[NSDateFormatter alloc] init];
+                                 [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
+                                 dateString = [formatter stringFromDate:[NSDate date]];
+                                 
+                                 addedEvent.Subject = [addedEvent.Subject stringByAppendingFormat:@" updated at %@", dateString];
+                                 [addedEvent setRecurrence:MSOutlook_EventType_SingleInstance];
+                                 
+                                 [snippetLibrary updateCalendarEvent:addedEvent
+                                                          completion:^(MSOutlookEvent *updatedEvent, NSError *error) {
+                                                              BOOL success = (updatedEvent != nil);
+                                                              NSString *resultText;
+                                                              
+                                                              if (!success) {
+                                                                  resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to update an event in your calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                                              }
+                                                              else {
+                                                                  NSMutableString *workingText = [[NSMutableString alloc] init];
+                                                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event and updated the subject in your calendar.</h3>"];
+                                                                  [workingText appendFormat:@"<p>%@<br></p>", addedEvent.Subject];
+                                                                  [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent and updateCalendarEvent in Office365Snippets.m."];
+                                                                  
+                                                                  resultText = workingText;
+                                                              }
+                                                              
+                                                              [self updateUIWithResultString:resultText
+                                                                                     success:success
+                                                                              snippetService:@"Calendar"
+                                                                                 snippetName:@"Update Event"];
+                                                          }];
+                             }];
 }
 
 - (void)performDeleteCalendarEvent
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Populate the event details
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *subject = [NSString stringWithFormat:@"New event created on %@", dateString];
     NSString *body = @"Congratulations, you created  this event from the Snippets app!";
     NSDate *start = [NSDate date];
     NSDate *end = [[NSDate date] dateByAddingTimeInterval: 3600];
-
+    
     MSOutlookEvent *eventToCreate = [snippetLibrary outlookEventWithProperties:@[toEmailAddress]
                                                                        subject:subject
                                                                           body:body
                                                                          start:start
                                                                            end: end
                                      ];
-
+    
     [snippetLibrary createCalendarEvent:eventToCreate
-                                completion:^(MSOutlookEvent *addedEvent, NSError *error) {
-                                    if (!addedEvent) {
-                                        NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
-                                        [self updateUIWithResultString:errorMessage
-                                                               success:NO
-                                                        snippetService:@"Calendar"
-                                                           snippetName:@"Delete Event"];
-                                        return;
-                                    }
-
-                                    [snippetLibrary deleteCalendarEvent:addedEvent
-                                                           completion:^(BOOL success, NSError *error) {
-                                                               NSString *resultText;
-
-                                                               if (!success) {
-                                                                   resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                                                               }
-                                                               else {
-                                                                   NSMutableString *workingText = [[NSMutableString alloc] init];
-                                                                   [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event and then deleted it from your calendar.</h3>"];
-                                                                   [workingText appendFormat:@"<p>%@<br></p>", subject];
-                                                                   [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent and deleteCalendarEvent in Office365Snippets.m."];
-
-                                                                   resultText = workingText;
-                                                               }
-
-                                                               [self updateUIWithResultString:resultText
-                                                                                      success:success
-                                                                               snippetService:@"Calendar"
-                                                                                  snippetName:@"Delete Event"];
-                                                           }];
-                                }];
+                             completion:^(MSOutlookEvent *addedEvent, NSError *error) {
+                                 if (!addedEvent) {
+                                     NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                     
+                                     [self updateUIWithResultString:errorMessage
+                                                            success:NO
+                                                     snippetService:@"Calendar"
+                                                        snippetName:@"Delete Event"];
+                                     return;
+                                 }
+                                 
+                                 [snippetLibrary deleteCalendarEvent:addedEvent
+                                                          completion:^(BOOL success, NSError *error) {
+                                                              NSString *resultText;
+                                                              
+                                                              if (!success) {
+                                                                  resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete an event in your Office 365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                                              }
+                                                              else {
+                                                                  NSMutableString *workingText = [[NSMutableString alloc] init];
+                                                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new event and then deleted it from your calendar.</h3>"];
+                                                                  [workingText appendFormat:@"<p>%@<br></p>", subject];
+                                                                  [workingText appendFormat:@"</br><hr><p>For the code, see createCalendarEvent and deleteCalendarEvent in Office365Snippets.m."];
+                                                                  
+                                                                  resultText = workingText;
+                                                              }
+                                                              
+                                                              [self updateUIWithResultString:resultText
+                                                                                     success:success
+                                                                              snippetService:@"Calendar"
+                                                                                 snippetName:@"Delete Event"];
+                                                          }];
+                             }];
 }
 
 - (void) performAcceptCalendarMeetingEvent{
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
     
     [self.spinner startAnimating];
     
     [snippetLibrary fetchCalendarEvents:^(NSArray *events, NSError *error) {
-
+        
         if(error){
             NSString *errorMessage = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to get the events from your O365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
             
@@ -680,7 +781,7 @@ static inline BOOL IsEmpty(id thing) {
                                        success:NO
                                 snippetService:@"Calendar"
                                    snippetName:@"Accept Event"];
-
+                
                 return;
             }
             else{
@@ -892,7 +993,7 @@ static inline BOOL IsEmpty(id thing) {
                                        [workingText appendFormat:@"</br><hr><p>For the code, see fetchCalendarEvents in Office365Snippets.m."];
                                        resultText = [workingText copy];
                                    }
-
+                                   
                                    [self updateUIWithResultString:resultText
                                                           success:success
                                                    snippetService:@"Calendar"
@@ -906,56 +1007,56 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performFetchContacts
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     [snippetLibrary fetchContacts:^(NSArray *contacts, NSError *error) {
         NSString *resultText;
         BOOL success = (contacts.count !=0);
-
+        
         if (!success) {
             resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to get your contacts from Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
         }
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
-
+            
             [workingText appendFormat:@"<h2><font color=#6AFB92>SUCCESS!</h2></font><h3>We retrieved the following contacts from Office 365:</h3>"];
-
+            
             for(MSOutlookContact *contact in contacts) {
                 [workingText appendFormat:@"<p>%@<br></p>", contact.DisplayName];
             }
-
+            
             [workingText appendFormat:@"</br><hr><p>For the code, see fetchContacts in Office365Snippets.m."];
-
+            
             resultText = [workingText copy];
         }
-
+        
         [self updateUIWithResultString:resultText
                                success:success
                         snippetService:@"Contacts"
                            snippetName:@"Get Contacts"];
     }];
-
+    
 }
 
 - (void)performCreateContact
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
-
+    
+    
     // Populate the contact details
     NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *givenName = @"New Contact";
@@ -963,66 +1064,8 @@ static inline BOOL IsEmpty(id thing) {
     NSString *displayName = [NSString stringWithFormat:@"%@%@%@", givenName, @" ", surname];
     NSString *title = @"Architect";
     NSString *mobilePhone1 = @"5554251212";
-
-
-    MSOutlookContact *contactToCreate = [snippetLibrary outlookContactWithProperties:@[emailAddress]
-                                                                             subject:givenName
-                                                                                body:displayName
-                                                                             surname:surname
-                                                                               title:title
-                                                                        mobilePhone1:mobilePhone1
-                                     ];
-
-    [snippetLibrary createContact:contactToCreate
-                             completion:^(MSOutlookContact *addedContact,  NSError *error) {
-                                 NSString *resultText;
-                                 BOOL success = (error == nil);
-
-                                 if (!success) {
-                                     resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                                 }
-                                 else {
-                                     NSMutableString *workingText = [[NSMutableString alloc] init];
-                                     [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact in Office 365.</h3>"];
-                                     [workingText appendFormat:@"<p>%@<br></p>", addedContact.DisplayName];
-                                     [workingText appendFormat:@"</br><hr><p>For the code, see createContact in Office365Snippets.m."];
-
-                                     resultText = workingText;
-                                 }
-
-                                 [self updateUIWithResultString:resultText
-                                                        success:success
-                                                 snippetService:@"Contacts"
-                                                    snippetName:@"Create Contact"];
-                             }];
-
-
-}
-
-- (void)performUpdateContact
-{
-    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
-    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
-    [self.spinner startAnimating];
-
-    //Create a date formatter to get the current date and time in the desired format
-    NSDateFormatter *formatter;
-    NSString        *dateString;
-    formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
-    dateString = [formatter stringFromDate:[NSDate date]];
-
-    // Populate the contact details
-    NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
-    NSString *givenName = @"New Contact";
-    NSString *surname = [NSString stringWithFormat:@" created on %@", dateString];
-    NSString *displayName = [NSString stringWithFormat:@"%@%@%@", givenName, @" ", surname];
-    NSString *title = @"Architect";
-    NSString *mobilePhone1 = @"5554251212";
-
-
+    
+    
     MSOutlookContact *contactToCreate = [snippetLibrary outlookContactWithProperties:@[emailAddress]
                                                                              subject:givenName
                                                                                 body:displayName
@@ -1030,71 +1073,48 @@ static inline BOOL IsEmpty(id thing) {
                                                                                title:title
                                                                         mobilePhone1:mobilePhone1
                                          ];
-
-
-
+    
     [snippetLibrary createContact:contactToCreate
-                             completion:^(MSOutlookContact *addedContact, NSError *error) {
-                                 if (!addedContact) {
-                                     NSString *errorMessage = [NSString stringWithFormat: @"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and update a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
-                                     [self updateUIWithResultString:errorMessage
-                                                            success:NO
-                                                     snippetService:@"Contacts"
-                                                        snippetName:@"Update Contact"];
-                                     return;
-                                 }
-
-                                 //Create a date formatter to get the current date and time in the desired format
-                                 NSDateFormatter *formatter;
-                                 NSString        *dateString;
-                                 formatter = [[NSDateFormatter alloc] init];
-                                 [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
-                                 dateString = [formatter stringFromDate:[NSDate date]];
-
-                                 addedContact.Surname = [addedContact.Surname stringByAppendingFormat:@" & updated at %@", dateString];
-
-                                 [snippetLibrary updateContact:addedContact
-                                                          completion:^(MSOutlookContact *updatedContact, NSError *error) {
-                                                              BOOL success = (updatedContact != nil);
-                                                              NSString *resultText;
-
-                                                              if (!success) {
-                                                                  resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to update a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                                                              }
-                                                              else {
-                                                                  NSMutableString *workingText = [[NSMutableString alloc] init];
-                                                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact and updated the surname property.</h3>"];
-                                                                  [workingText appendFormat:@"<p>%@<br></p>", updatedContact.DisplayName];
-                                                                  [workingText appendFormat:@"</br><hr><p>For the code, see createContact and updateContact in Office365Snippets.m."];
-
-                                                                  resultText = workingText;
-                                                              }
-
-                                                              [self updateUIWithResultString:resultText
-                                                                                     success:success
-                                                                              snippetService:@"Contacts"
-                                                                                 snippetName:@"Update Contact"];
-                                                          }];
-                             }];
-
+                       completion:^(MSOutlookContact *addedContact,  NSError *error) {
+                           NSString *resultText;
+                           BOOL success = (error == nil);
+                           
+                           if (!success) {
+                               resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                           }
+                           else {
+                               NSMutableString *workingText = [[NSMutableString alloc] init];
+                               [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact in Office 365.</h3>"];
+                               [workingText appendFormat:@"<p>%@<br></p>", addedContact.DisplayName];
+                               [workingText appendFormat:@"</br><hr><p>For the code, see createContact in Office365Snippets.m."];
+                               
+                               resultText = workingText;
+                           }
+                           
+                           [self updateUIWithResultString:resultText
+                                                  success:success
+                                           snippetService:@"Contacts"
+                                              snippetName:@"Create Contact"];
+                       }];
+    
+    
 }
 
-- (void)performDeleteContact
+- (void)performUpdateContact
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Populate the contact details
     NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *givenName = @"New Contact";
@@ -1102,8 +1122,89 @@ static inline BOOL IsEmpty(id thing) {
     NSString *displayName = [NSString stringWithFormat:@"%@%@%@", givenName, @" ", surname];
     NSString *title = @"Architect";
     NSString *mobilePhone1 = @"5554251212";
+    
+    
+    MSOutlookContact *contactToCreate = [snippetLibrary outlookContactWithProperties:@[emailAddress]
+                                                                             subject:givenName
+                                                                                body:displayName
+                                                                             surname:surname
+                                                                               title:title
+                                                                        mobilePhone1:mobilePhone1
+                                         ];
+    
+    
+    
+    [snippetLibrary createContact:contactToCreate
+                       completion:^(MSOutlookContact *addedContact, NSError *error) {
+                           if (!addedContact) {
+                               NSString *errorMessage = [NSString stringWithFormat: @"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and update a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                               
+                               [self updateUIWithResultString:errorMessage
+                                                      success:NO
+                                               snippetService:@"Contacts"
+                                                  snippetName:@"Update Contact"];
+                               return;
+                           }
+                           
+                           //Create a date formatter to get the current date and time in the desired format
+                           NSDateFormatter *formatter;
+                           NSString        *dateString;
+                           formatter = [[NSDateFormatter alloc] init];
+                           [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
+                           dateString = [formatter stringFromDate:[NSDate date]];
+                           
+                           addedContact.Surname = [addedContact.Surname stringByAppendingFormat:@" & updated at %@", dateString];
+                           
+                           [snippetLibrary updateContact:addedContact
+                                              completion:^(MSOutlookContact *updatedContact, NSError *error) {
+                                                  BOOL success = (updatedContact != nil);
+                                                  NSString *resultText;
+                                                  
+                                                  if (!success) {
+                                                      resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to update a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                                  }
+                                                  else {
+                                                      NSMutableString *workingText = [[NSMutableString alloc] init];
+                                                      [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact and updated the surname property.</h3>"];
+                                                      [workingText appendFormat:@"<p>%@<br></p>", updatedContact.DisplayName];
+                                                      [workingText appendFormat:@"</br><hr><p>For the code, see createContact and updateContact in Office365Snippets.m."];
+                                                      
+                                                      resultText = workingText;
+                                                  }
+                                                  
+                                                  [self updateUIWithResultString:resultText
+                                                                         success:success
+                                                                  snippetService:@"Contacts"
+                                                                     snippetName:@"Update Contact"];
+                                              }];
+                       }];
+    
+}
 
-
+- (void)performDeleteContact
+{
+    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
+    
+    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
+    
+    [self.spinner startAnimating];
+    
+    //Create a date formatter to get the current date and time in the desired format
+    NSDateFormatter *formatter;
+    NSString        *dateString;
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
+    dateString = [formatter stringFromDate:[NSDate date]];
+    
+    // Populate the contact details
+    NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
+    NSString *givenName = @"New Contact";
+    NSString *surname = [NSString stringWithFormat:@" created on %@", dateString];
+    NSString *displayName = [NSString stringWithFormat:@"%@%@%@", givenName, @" ", surname];
+    NSString *title = @"Architect";
+    NSString *mobilePhone1 = @"5554251212";
+    
+    
     MSOutlookContact *contactToCreate = [snippetLibrary outlookContactWithProperties:@[emailAddress ]
                                                                              subject:givenName
                                                                                 body:displayName
@@ -1111,42 +1212,42 @@ static inline BOOL IsEmpty(id thing) {
                                                                                title:title
                                                                         mobilePhone1:mobilePhone1
                                          ];
-
-
+    
+    
     [snippetLibrary createContact:contactToCreate
-                             completion:^(MSOutlookContact *addedContact, NSError *error) {
-                                 if (!addedContact) {
-                                     NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a contact in Office 365 Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
-                                     [self updateUIWithResultString:errorMessage
-                                                            success:NO
-                                                     snippetService:@"Contacts"
-                                                        snippetName:@"Delete Contact"];
-                                     return;
-                                 }
-
-                                 [snippetLibrary deleteContact:addedContact
-                                                          completion:^(BOOL success, NSError *error) {
-                                                              NSString *resultText;
-
-                                                              if (!success) {
-                                                                  resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-                                                              }
-                                                              else {
-                                                                  NSMutableString *workingText = [[NSMutableString alloc] init];
-                                                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact and then deleted it from Office 365.</h3>"];
-                                                                  [workingText appendFormat:@"<p>%@<br></p>", displayName];
-                                                                  [workingText appendFormat:@"</br><hr><p>For the code, see createContact and deleteContact in Office365Snippets.m."];
-
-                                                                  resultText = workingText;
-                                                              }
-
-                                                              [self updateUIWithResultString:resultText
-                                                                                     success:success
-                                                                              snippetService:@"Contacts"
-                                                                                 snippetName:@"Delete Contact"];
-                                                          }];
-                             }];
+                       completion:^(MSOutlookContact *addedContact, NSError *error) {
+                           if (!addedContact) {
+                               NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a contact in Office 365 Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                               
+                               [self updateUIWithResultString:errorMessage
+                                                      success:NO
+                                               snippetService:@"Contacts"
+                                                  snippetName:@"Delete Contact"];
+                               return;
+                           }
+                           
+                           [snippetLibrary deleteContact:addedContact
+                                              completion:^(BOOL success, NSError *error) {
+                                                  NSString *resultText;
+                                                  
+                                                  if (!success) {
+                                                      resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a contact in Office 365. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
+                                                  }
+                                                  else {
+                                                      NSMutableString *workingText = [[NSMutableString alloc] init];
+                                                      [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new contact and then deleted it from Office 365.</h3>"];
+                                                      [workingText appendFormat:@"<p>%@<br></p>", displayName];
+                                                      [workingText appendFormat:@"</br><hr><p>For the code, see createContact and deleteContact in Office365Snippets.m."];
+                                                      
+                                                      resultText = workingText;
+                                                  }
+                                                  
+                                                  [self updateUIWithResultString:resultText
+                                                                         success:success
+                                                                  snippetService:@"Contacts"
+                                                                     snippetName:@"Delete Contact"];
+                                              }];
+                       }];
 }
 
 
@@ -1154,32 +1255,32 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performFetchMailMessages
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     [snippetLibrary fetchMailMessages:^(NSArray *messages, NSError *error) {
         NSString *resultText;
         BOOL success = (messages.count != 0);
-
+        
         if (!success) {
             resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Error: %@</p><hr></br>We were unable to read the messages in your O365 inbox. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
         }
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
-
+            
             [workingText appendFormat:@"<h2><font color=#6AFB92>SUCCESS!</h2></font><h3>We retrieved the following items from your inbox:</h3>"];
-
+            
             for(MSOutlookMessage *message in messages) {
                 [workingText appendFormat:@"<p>%@<br></p>", message.Subject];
             }
-
+            
             [workingText appendFormat:@"</br><hr><p>For the code, see fetchMailMessages in Office365Snippets.m."];
-
+            
             resultText = [workingText copy];
         }
-
+        
         [self updateUIWithResultString:resultText
                                success:success
                         snippetService:@"Mail"
@@ -1190,32 +1291,32 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performCreateMailMessage
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Create the message that we would like to send
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *subject = [NSString stringWithFormat:@"New mail created on %@", dateString];
     NSString *body = @"Congratulations, you sent this message from the Snippets app!";
-
+    
     MSOutlookMessage *messageToSend = [snippetLibrary outlookMessageWithProperties:@[toEmailAddress]
                                                                            subject:subject
                                                                               body:body];
-
+    
     [snippetLibrary sendMailMessage:messageToSend
                          completion:^(BOOL success, NSError *error) {
                              NSString *resultText;
                              success = (error == nil);
-
+                             
                              if (!success) {
                                  resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and send a mail message. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
                              }
@@ -1224,10 +1325,10 @@ static inline BOOL IsEmpty(id thing) {
                                  [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new mail message and sent it to your inbox.</h3>"];
                                  [workingText appendFormat:@"<p>%@<br></p>", subject];
                                  [workingText appendFormat:@"</br><hr><p>For the code, see createMailMessage in Office365Snippets.m."];
-
+                                 
                                  resultText = workingText;
                              }
-
+                             
                              [self updateUIWithResultString:resultText
                                                     success:success
                                              snippetService:@"Mail"
@@ -1238,53 +1339,53 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performUpdateMailMessage
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Create the message that we would like to send
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *subject = [NSString stringWithFormat:@"Sample draft message created at %@", dateString];
     NSString *body = @"Sample message from the Snippets App!";
-
+    
     MSOutlookMessage *messageToAdd = [snippetLibrary outlookMessageWithProperties:@[toEmailAddress]
                                                                           subject:subject
                                                                              body:body];
-
+    
     [snippetLibrary createDraftMailMessage:messageToAdd
                                 completion:^(MSOutlookMessage *addedMessage, NSError *error) {
                                     if (!addedMessage) {
                                         NSString *errorMessage = [NSString stringWithFormat: @"FAIL<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and update a mail message in your O365 mail Drafts folder. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+                                        
                                         [self updateUIWithResultString:errorMessage
                                                                success:NO
                                                         snippetService:@"Mail"
                                                            snippetName:@"Update Message"];
                                         return;
                                     }
-
+                                    
                                     //Create a date formatter to get the current date and time in the desired format
                                     NSDateFormatter *formatter;
                                     NSString        *dateString;
                                     formatter = [[NSDateFormatter alloc] init];
                                     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
                                     dateString = [formatter stringFromDate:[NSDate date]];
-
+                                    
                                     addedMessage.Subject = [addedMessage.Subject stringByAppendingFormat:@" & updated at %@", dateString];
-
+                                    
                                     [snippetLibrary updateMailMessage:addedMessage
                                                            completion:^(MSOutlookMessage *updatedMessage, NSError *error) {
                                                                BOOL success = (updatedMessage != nil);
                                                                NSString *resultText;
-
+                                                               
                                                                if (!success) {
                                                                    resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to update an email. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
                                                                }
@@ -1293,10 +1394,10 @@ static inline BOOL IsEmpty(id thing) {
                                                                    [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new mail message in your drafts folder and updated its subject.</h3>"];
                                                                    [workingText appendFormat:@"<p>%@<br></p>", updatedMessage.Subject];
                                                                    [workingText appendFormat:@"</br><hr><p>For the code, see createDraftMessage and updateMailMessage in Office365Snippets.m."];
-
+                                                                   
                                                                    resultText = workingText;
                                                                }
-
+                                                               
                                                                [self updateUIWithResultString:resultText
                                                                                       success:success
                                                                                snippetService:@"Mail"
@@ -1308,43 +1409,43 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performDeleteMailMessage
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //Create a date formatter to get the current date and time in the desired format
     NSDateFormatter *formatter;
     NSString        *dateString;
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-dd-MM 'at' HH:mm"];
     dateString = [formatter stringFromDate:[NSDate date]];
-
+    
     // Create the message that we would like to send
     NSString *toEmailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:@"LogInUser"];
     NSString *subject = [NSString stringWithFormat:@"Sample draft message created at %@", dateString];
     NSString *body = @"Sample message from the Snippets App!";
-
+    
     MSOutlookMessage *messageToAdd = [snippetLibrary outlookMessageWithProperties:@[toEmailAddress]
                                                                           subject:subject
                                                                              body:body];
-
+    
     [snippetLibrary createDraftMailMessage:messageToAdd
                                 completion:^(MSOutlookMessage *addedMessage, NSError *error) {
                                     if (!addedMessage) {
                                         NSString *errorMessage = [NSString stringWithFormat: @"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a mail message in your O365 mail Drafts folder. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+                                        
                                         [self updateUIWithResultString:errorMessage
                                                                success:NO
                                                         snippetService:@"Mail"
                                                            snippetName:@"Delete Message"];
                                         return;
                                     }
-
+                                    
                                     [snippetLibrary deleteMailMessage:addedMessage
                                                            completion:^(BOOL success, NSError *error) {
                                                                NSString *resultText;
-
+                                                               
                                                                if (!success) {
                                                                    resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create and delete a mail message. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
                                                                }
@@ -1353,10 +1454,10 @@ static inline BOOL IsEmpty(id thing) {
                                                                    [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a new mail message in your drafts folder and then deleted it.</h3>"];
                                                                    [workingText appendFormat:@"<p>%@<br></p>", subject];
                                                                    [workingText appendFormat:@"</br><hr><p>For the code, see createDraftMailMessage and deleteMailMessage in Office365Snippets.m."];
-
+                                                                   
                                                                    resultText = workingText;
                                                                }
-
+                                                               
                                                                [self updateUIWithResultString:resultText
                                                                                       success:success
                                                                                snippetService:@"Mail"
@@ -1368,17 +1469,17 @@ static inline BOOL IsEmpty(id thing) {
 - (void)performReplyToMailMessage
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //We will take the first email message in the logged in user's inbox and reply to it
     [snippetLibrary fetchMailMessages:^(NSArray *messages, NSError *error) {
-
+        
         if (!messages || error) {
             NSString *errorMessage = [NSString stringWithFormat: @"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to reply to an email message in your inbox. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+            
             [self updateUIWithResultString:errorMessage
                                    success:NO
                             snippetService:@"Mail"
@@ -1388,58 +1489,58 @@ static inline BOOL IsEmpty(id thing) {
         else {
             //Taking the first message from the logged in user's inbox
             MSOutlookMessage *inboxMailMessage = [messages objectAtIndex:0];
-
+            
             //Sends reply message
             [snippetLibrary replyToMailMessage:inboxMailMessage completion:^(int returnValue, NSError *error) {
-
+                
                 NSString *resultText;
-
+                
                 if (returnValue ==! 0 || error) {
                     NSString *errorMessage = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to reply to an email message in your inbox. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+                    
                     [self updateUIWithResultString:errorMessage
                                            success:NO
                                     snippetService:@"Mail"
                                        snippetName:@"Reply to message"];
                     return;
-
+                    
                 }
                 else {
                     NSMutableString *workingText = [[NSMutableString alloc] init];
                     [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We replied to a message in your inbox.</h3>"];
                     [workingText appendFormat:@"</br><hr><p>For the code, see replyToMailMessage in Office365Snippets.m."];
-
+                    
                     resultText = workingText;
                 }
-
+                
                 [self updateUIWithResultString:resultText
                                        success:YES
                                 snippetService:@"Mail"
                                    snippetName:@"Reply to message"];
-
+                
             }];
-
+            
         }
-
+        
     }];
-
+    
 }
 
 
 - (void)createDraftReplyMailMessage
 {
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     //We will take the first email message in the logged in user's inbox and reply to it
     [snippetLibrary fetchMailMessages:^(NSArray *messages, NSError *error) {
-
+        
         if (!messages || error) {
             NSString *errorMessage = [NSString stringWithFormat: @"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create a draft reply message in your inbox. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+            
             [self updateUIWithResultString:errorMessage
                                    success:NO
                             snippetService:@"Mail"
@@ -1449,40 +1550,40 @@ static inline BOOL IsEmpty(id thing) {
         else {
             //Taking the first message from the logged in user's inbox
             MSOutlookMessage *inboxMailMessage = [messages objectAtIndex:0];
-
+            
             //Creates draft reply message in draft folder
             [snippetLibrary createDraftReplyMessage:inboxMailMessage completion:^(MSOutlookMessage *replyMessage, NSError *error) {
-
+                
                 NSString *resultText;
                 BOOL success = (replyMessage != nil);
-
+                
                 if (error) {
                     NSString *errorMessage = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to create a draft reply message in your inbox. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the read me.", [error localizedDescription]];
-
+                    
                     [self updateUIWithResultString:errorMessage
                                            success:NO
                                     snippetService:@"Mail"
                                        snippetName:@"Create draft reply"];
                     return;
-
+                    
                 }
                 else {
                     NSMutableString *workingText = [[NSMutableString alloc] init];
                     [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We created a draft reply message in your inbox.</h3>"];
                     [workingText appendFormat:@"</br><hr><p>For the code, see createDraftMailMessage in Office365Snippets.m."];
-
+                    
                     resultText = workingText;
                 }
-
+                
                 [self updateUIWithResultString:resultText
                                        success:success
                                 snippetService:@"Mail"
                                    snippetName:@"Create draft reply"];
-
+                
             }];
-
+            
         }
-
+        
     }];
 }
 
@@ -1503,11 +1604,11 @@ static inline BOOL IsEmpty(id thing) {
     recipient.emailAddress = emailAddress;
     NSMutableArray *toRecipients = [[NSMutableArray alloc] init];
     [toRecipients addObject:recipient];
-
+    
     [snippetLibrary createAndSendHTMLMailMessage:toRecipients completion:^(BOOL success, NSError *error) {
-
+        
         NSString *resultText;
-
+        
         if (!success) {
             resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p>", [error localizedDescription]];
         }
@@ -1515,17 +1616,17 @@ static inline BOOL IsEmpty(id thing) {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We sent a new mail message and put a copy in your Sent Items folder.</h3>"];
             [workingText appendFormat:@"</br><hr><p>For the code, see createAndSendHTMLMailMessage in Office365Snippets.m."];
-
+            
             resultText = workingText;
         }
-
+        
         [self updateUIWithResultString:resultText
                                success:success
                         snippetService:@"Mail"
                            snippetName:@"Create and send HTML mail message"];
-
+        
     }];
-
+    
 }
 
 // Copy a message to the DeletedItems folder.
@@ -1557,10 +1658,10 @@ static inline BOOL IsEmpty(id thing) {
                 [workingText appendFormat:@"</br><hr><p>For the code, see copyMessage in Office365Snippets.m."];
                 
                 resultText = workingText;
-
+                
             }
             else {
-
+                
                 resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p>", [error localizedDescription]];
                 
             }
@@ -1653,7 +1754,7 @@ static inline BOOL IsEmpty(id thing) {
             resultText = [workingText copy];
         }
         else {
-
+            
             resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Error: %@</p><hr></br>We were unable to read the messages in your Office 365 inbox. Please ensure your client ID and redirect URI have been set in AuthenticationManager.m, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
         }
         
@@ -1681,7 +1782,7 @@ static inline BOOL IsEmpty(id thing) {
         if (success) {
             NSMutableString *workingText = [[NSMutableString alloc] init];
             [workingText appendFormat:@"<h2><font color=#6AFB92>SUCCESS!</h2></font><h3>We retrieved the following WebLink: %@</h3>", webLink];
-    
+            
             
             [workingText appendFormat:@"</br><hr><p>For the code, see fetchMessageWebLink in Office365Snippets.m."];
             
@@ -1703,49 +1804,49 @@ static inline BOOL IsEmpty(id thing) {
 
 - (void)performFetchFiles
 {
-
+    
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
-
+    
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
-
+    
     [self.spinner startAnimating];
-
+    
     [snippetLibrary fetchFiles:^(NSArray *files, NSError *error) {
-    NSString *resultText;
-    BOOL success = (files.count != 0);
-
+        NSString *resultText;
+        BOOL success = (files.count != 0);
+        
         if (!success) {
             resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Error: %@</p><hr></br>We were unable to get the files in OneDrive for Business. Please ensure your client ID and redirect URI have been set in the Authentication Manager, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
         }
         else {
             NSMutableString *workingText = [[NSMutableString alloc] init];
-
+            
             [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following files from OneDrive for Business:</h3>"];
-
+            
             for(MSSharePointItem *file in files)
-                {
-                    if ([file.type isEqual: @"Folder"]){
+            {
+                if ([file.type isEqual: @"Folder"]){
                     [workingText appendFormat:@"<p>Folder: %@<br></p>", file.name];
                 }
                 else
-                [workingText appendFormat:@"<p>File: %@<br></p>", file.name];
-                }
-
-
+                    [workingText appendFormat:@"<p>File: %@<br></p>", file.name];
+            }
+            
+            
             [workingText appendFormat:@"</br><hr><p>For the code, see fetchFiles in Office365Snippets.m."];
-
+            
             resultText = [workingText copy];
-
-
+            
+            
         }
-
+        
         [self updateUIWithResultString:resultText
                                success:success
                         snippetService:@"Files"
                            snippetName:@"Get files"];
-
-        }];
-
+        
+    }];
+    
 }
 
 

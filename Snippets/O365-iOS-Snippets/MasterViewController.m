@@ -91,6 +91,12 @@
 {
     NSMutableArray *calendarRows = [[NSMutableArray alloc] init];
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Get events"   action:@selector(performFetchCalendarEvents)]];
+    
+    
+    [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"CHW 3F Sunnyvale"   action:@selector(get3FSunnyvaleRoom)]];
+
+    
+    
     [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Create event" action:@selector(performCreateCalendarEvent)]];
    // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Update event" action:@selector(performUpdateCalendarEvent)]];
    // [calendarRows addObject:[SnippetInfo snippetInfoWithName:@"Delete event" action:@selector(performDeleteCalendarEvent)]];
@@ -274,6 +280,59 @@ static inline BOOL IsEmpty(id thing) {
 }
 
 #pragma mark - Calendar events
+
+
+- (void)get3FSunnyvaleRoom
+{
+    NSLog(@"Action: %@", NSStringFromSelector(_cmd));
+    
+    Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];
+    
+    [self.spinner startAnimating];
+    
+    [snippetLibrary fetchCalendarEvents:^(NSArray *events, NSError *error) {
+        NSString *resultText;
+        BOOL success = (!error);
+        
+        if (!success) {
+            resultText = [NSString stringWithFormat:@"<h2><font color=#DC381F>FAIL: </font></h2><p>Oops! The following exception was raised.</p><p>Exception: %@</p><hr></br>We were unable to get the events from your O365 calendar. Please ensure your client ID and redirect URI have been set in the Authentication Controller, and all of the service permissions have been correctly configured in your Azure app registration. Both of these procedures are covered in depth in the readme.", [error localizedDescription]];
+        }
+        else {
+            NSMutableString *workingText = [[NSMutableString alloc] init];
+            
+            [workingText appendFormat:@"<h2><font color=green>SUCCESS!</h2></font><h3>We retrieved the following events from your calendar:</h3>"];
+            
+            for(MSOutlookEvent *event in events) {
+                //if (event.Location.DisplayName == @"CHW_JEFF") {
+                    
+                if ([@"CHW_JEFF" compare:event.Location.DisplayName]==NSOrderedSame) {
+                    [workingText appendFormat:@"Subject: "];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Subject];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Location.DisplayName];
+                    [workingText appendFormat:@"Start time: "];
+                    
+                    
+                    
+                    [workingText appendFormat:@"<p>%@<br></p>", event.Start];
+                    [workingText appendFormat:@"End time: "];
+                    [workingText appendFormat:@"<p>%@<br></p>", event.End];
+                    
+                }
+            }
+            
+            [workingText appendFormat:@"</br><hr><p>For the code, see fetchCalendarEvents in Office365Snippets.m."];
+            
+            resultText = [workingText copy];
+        }
+        
+        [self updateUIWithResultString:resultText
+                               success:success
+                        snippetService:@"Calendar"
+                           snippetName:@"Get Events"];
+    }];
+
+    
+}
 
 - (void)performFetchCalendarEvents
 {

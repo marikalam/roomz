@@ -7,6 +7,7 @@
 #import "Office365Snippets.h"
 #import "SnippetInfo.h"
 #import "Office365ClientFetcher.h"
+#import "CEViewController.h"
 
 @interface MasterViewController ()
 @property (copy, nonatomic) NSArray *sectionHeaders;
@@ -415,11 +416,11 @@ static inline BOOL IsEmpty(id thing) {
 }
 - (void)performCreateCalendarEvent
 {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CEViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:vc animated:YES completion:NULL];
-    
+//    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    CEViewController *vc = [sb instantiateViewControllerWithIdentifier:@"CEViewController"];
+//    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self presentViewController:vc animated:YES completion:NULL];
+//    
     NSLog(@"Action: %@", NSStringFromSelector(_cmd));
 
     Office365Snippets *snippetLibrary = [[Office365Snippets alloc] init];

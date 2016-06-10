@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B05EE3B21D0A5166008C9925 /* CEViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B05EE3B11D0A5166008C9925 /* CEViewController.m */; };
 		D117ADAB851A47D85C810580 /* libPods-O365-iOS-Snippets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7977C30A89BADB2E90412075 /* libPods-O365-iOS-Snippets.a */; };
 		D3C571581A8D7BBA0012FB42 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C571571A8D7BBA0012FB42 /* main.m */; };
 		D3C5715B1A8D7BBA0012FB42 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C5715A1A8D7BBA0012FB42 /* AppDelegate.m */; };
@@ -23,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		7977C30A89BADB2E90412075 /* libPods-O365-iOS-Snippets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-O365-iOS-Snippets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B05EE3B01D0A5166008C9925 /* CEViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CEViewController.h; sourceTree = "<group>"; };
+		B05EE3B11D0A5166008C9925 /* CEViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CEViewController.m; sourceTree = "<group>"; };
 		D3C571521A8D7BBA0012FB42 /* Roomz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roomz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C571561A8D7BBA0012FB42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3C571571A8D7BBA0012FB42 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 				D3C5715A1A8D7BBA0012FB42 /* AppDelegate.m */,
 				D3C5715C1A8D7BBA0012FB42 /* MasterViewController.h */,
 				D3C5715D1A8D7BBA0012FB42 /* MasterViewController.m */,
+				B05EE3B01D0A5166008C9925 /* CEViewController.h */,
+				B05EE3B11D0A5166008C9925 /* CEViewController.m */,
 				D3C5715F1A8D7BBA0012FB42 /* DetailViewController.h */,
 				D3C571601A8D7BBA0012FB42 /* DetailViewController.m */,
 				D3C571841A8D7D5C0012FB42 /* Images.xcassets */,
@@ -165,6 +170,7 @@
 		D3C5714A1A8D7BBA0012FB42 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
@@ -263,6 +269,7 @@
 				D3C5715E1A8D7BBA0012FB42 /* MasterViewController.m in Sources */,
 				D3C571831A8D7CAF0012FB42 /* Office365Snippets.m in Sources */,
 				D3C571581A8D7BBA0012FB42 /* main.m in Sources */,
+				B05EE3B21D0A5166008C9925 /* CEViewController.m in Sources */,
 				D3C571801A8D7C950012FB42 /* SnippetInfo.m in Sources */,
 				D3C571611A8D7BBA0012FB42 /* DetailViewController.m in Sources */,
 				D3CA87871AB4C4B70000C578 /* AuthenticationManager.m in Sources */,
@@ -355,12 +362,15 @@
 			baseConfigurationReference = DA44D7100B03F638AB52CF46 /* Pods-O365-iOS-Snippets.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "O365-iOS-Snippets/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Roomz;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "O365-iOS-Snippets/O365-iOS-Snippets-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -369,12 +379,14 @@
 			baseConfigurationReference = EFA142C9C5192B86D91BD1BB /* Pods-O365-iOS-Snippets.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "O365-iOS-Snippets/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Roomz;
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "O365-iOS-Snippets/O365-iOS-Snippets-Bridging-Header.h";
 			};
 			name = Release;
 		};
